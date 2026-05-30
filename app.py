@@ -1,10 +1,10 @@
 import streamlit as st
-import anthropic
 import json
 import os
 from PIL import Image
 import base64
 import io
+import requests
 
 # Configure page
 st.set_page_config(
@@ -80,7 +80,13 @@ st.markdown("""
 
 # Initialize session state
 if "groq_key" not in st.session_state:
-    st.session_state.groq_key = os.getenv("GROQ_API_KEY", "")
+    # Try to load from Streamlit secrets first (for Streamlit Cloud)
+    try:
+        st.session_state.groq_key = st.secrets["GROQ_API_KEY"]
+    except:
+        # Fall back to environment variable
+        st.session_state.groq_key = os.getenv("GROQ_API_KEY", "")
+
 if "analysis_result" not in st.session_state:
     st.session_state.analysis_result = None
 
@@ -167,7 +173,7 @@ Creatinine: 1.8 mg/dL""",
         "Anemia": "Hemoglobin: 8.5 g/dL\nHematocrit: 28%\nMCV: 72 fL\nFerritin: 6 ng/mL",
         "Kidney": "Creatinine: 2.1 mg/dL\nBUN: 35 mg/dL\neGFR: 38 mL/min\nUric Acid: 8.5 mg/dL",
         "Liver": "SGPT (ALT): 85 U/L\nSGOT (AST): 72 U/L\nBilirubin Total: 2.4 mg/dL\nAlkaline Phosphatase: 165 U/L",
-        "Full Panel": "Hemoglobin: 9.8 g/dL\nFasting Blood Sugar: 138 mg/dL\nTSH: 5.9 mIU/L\nTotal Cholesterol: 235 mg/dL\nLDL: 155 mg/dL\nHDL: 38 mg/dL\nCreatinine: 1.6 mg/dL\nSGPT: 58 U/L\nVitamin D: 14 ng/mL"
+        "Full Panel": "Hemoglobin: 9.8 g/dL\nFasting Blood Sugar: 138 mg/dL\nTSH: 5.9 mIU/L\nTotal Cholesterol: 235 mg/dL\nLDL: 155 mg/dL\nHDL: 38 mg/dL\nCreatinine: 1.6 mg/dL\nSGPT: 58 U/L\nVitamin D: 18 ng/mL"
     }
     
     with col1:
@@ -297,9 +303,7 @@ Return ONLY valid compact JSON with no markdown fences, no explanations, just th
                 else:
                     user_msg = "Extract all lab values from this image and analyze them completely."
                 
-                # Call Groq API using Anthropic SDK (compatible with Groq)
-                import requests
-                
+                # Call Groq API
                 headers = {
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {st.session_state.groq_key}"
