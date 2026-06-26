@@ -82,7 +82,7 @@ with tab2:
 
 st.markdown("---")
 if st.button("🔬 Analyze My Report", use_container_width=True, key="analyze"):
-    if not input_data:
+    if not input_data and not uploaded_file:
         st.error("❌ Please enter lab values or upload a photo first")
     elif not st.session_state.groq_key:
         st.error("❌ Please provide your Groq API Key")
