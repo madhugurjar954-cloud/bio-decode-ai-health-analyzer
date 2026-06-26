@@ -1,7 +1,6 @@
 import streamlit as st
 import json
 import os
-from PIL import Image
 import base64
 import io
 import requests
@@ -74,12 +73,8 @@ with tab2:
     st.markdown("### Upload Lab Report Photo")
     uploaded_file = st.file_uploader("Upload your lab report image", type=["jpg", "jpeg", "png"], help="AI will extract all values automatically")
     if uploaded_file:
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded image", use_container_width=True)
-        img_buffer = io.BytesIO()
-        image.save(img_buffer, format="PNG")
-        img_buffer.seek(0)
-        input_mode, input_data = "photo", base64.b64encode(img_buffer.read()).decode()
+    st.image(uploaded_file, caption="Uploaded image", use_container_width=True)
+    img_base64 = base64.b64encode(uploaded_file.getvalue()).decode()
     else:
         input_mode, input_data = None, None
 
