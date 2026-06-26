@@ -73,9 +73,11 @@ with tab2:
     st.markdown("### Upload Lab Report Photo")
     uploaded_file = st.file_uploader("Upload your lab report image", type=["jpg", "jpeg", "png"], help="AI will extract all values automatically")
     if uploaded_file:
-    st.image(uploaded_file, caption="Uploaded image", use_container_width=True)
-    img_base64 = base64.b64encode(uploaded_file.getvalue()).decode()
+        st.image(uploaded_file, caption="Uploaded image", use_container_width=True)
+        img_base64 = base64.b64encode(uploaded_file.getvalue()).decode()
+        input_mode, input_data = "photo", img_base64
     else:
+        input_mode, input_data = None, None
         input_mode, input_data = None, None
 
 st.markdown("---")
