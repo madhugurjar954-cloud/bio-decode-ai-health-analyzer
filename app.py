@@ -622,7 +622,7 @@ with tab3:
         scores = [h.get("health_score", 0) for h in st.session_state.analysis_history]
         
         with col1:
-            st.metric("Average Score", f"{sum(scores)//len(scores) if scores else 0}/100")
+            st.metric("Average Score", f"{sum(int(s) for s in scores if str(s).isdigit())//len(scores) if scores else 0}/100")
         with col2:
             st.metric("Latest Score", f"{scores[-1]}/100")
         with col3:
