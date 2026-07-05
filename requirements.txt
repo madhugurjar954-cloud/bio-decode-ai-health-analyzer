@@ -4,3 +4,4 @@ python-dotenv
 requests
 reportlab>=4.0.0
 Pillow>=10.0.0
+pandas
