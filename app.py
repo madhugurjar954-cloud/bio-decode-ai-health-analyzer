@@ -622,7 +622,7 @@ with tab3:
         scores = [h.get("health_score", 0) for h in st.session_state.analysis_history]
         
         with col1:
-            st.metric("Average Score", f"{sum(int(s) for s in scores if str(s).isdigit())//len(scores) if scores else 0}/100")
+            st.metric("Average Score", f"{sum(int(str(s)) for s in scores if str(s).strip().isdigit())//len(scores) if scores else 0}/100")
         with col2:
             st.metric("Latest Score", f"{scores[-1]}/100")
         with col3:
@@ -632,7 +632,8 @@ with tab3:
         
         for i, report in enumerate(reversed(st.session_state.analysis_history)):
             score = report.get("health_score", 0)
-            status = "🟢 Good" if score >= 70 else "🟡 Needs Attention" if score >= 40 else "🔴 Needs Care"
+            score_num = int(str(score)) if str(score).strip().isdigit() else 0
+status = "🟢 Good" if score_num >= 70 else "🟡 Needs Attention" if score_num >= 40 else "🔴 Needs Care"
             
             with st.expander(f"{status} - {report['date']} (Score: {score}/100)"):
                 col1, col2 = st.columns(2)
