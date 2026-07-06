@@ -633,7 +633,7 @@ with tab3:
         for i, report in enumerate(reversed(st.session_state.analysis_history)):
             score = report.get("health_score", 0)
             score_num = int(str(score)) if str(score).strip().isdigit() else 0
-status = "🟢 Good" if score_num >= 70 else "🟡 Needs Attention" if score_num >= 40 else "🔴 Needs Care"
+            status = "🟢 Good" if score_num >= 70 else "🟡 Needs Attention" if score_num >= 40 else "🔴 Needs Care"
             
             with st.expander(f"{status} - {report['date']} (Score: {score}/100)"):
                 col1, col2 = st.columns(2)
