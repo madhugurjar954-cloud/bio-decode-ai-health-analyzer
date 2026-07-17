@@ -414,9 +414,7 @@ with t3:
         for i,m in enumerate(st.session_state.medicines):
             c1,c2 = st.columns([5,1])
             with c1:
-                times_str = ", ".join(m.get("times") or []) or "Not set"
-               
-        
+                times_str = ", ".join(m.get("times") or []) or "Not set"        
                 notes_str = f' · {m["notes"]}' if m.get("notes") else ""
                 st.markdown(f'<div class="med-item"><div class="med-name">{m["name"]} {m["dose"]}</div><div class="med-sub">{times_str} · {m["freq"]} · {m.get("duration","Ongoing")}{notes_str}</div></div>', unsafe_allow_html=True)
             with c2:
