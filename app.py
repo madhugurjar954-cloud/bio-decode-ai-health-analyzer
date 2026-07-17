@@ -483,7 +483,8 @@ with t4:
         for i,w in enumerate(td_workouts):
             c1,c2 = st.columns([5,1])
             with c1:
-                st.markdown(f'<div class="card blue"><div style="font-size:14px;font-weight:700">{w["type"]} <span class="badge b-blue">{w["intensity"]}</span></div><div style="font-size:12px;color:var(--text2);margin-top:5px">⏱️ {w["dur"]} mins &nbsp;·&nbsp; 🔥 {w["cal"]} kcal &nbsp;·&nbsp; {w["mood"]} &nbsp;·&nbsp; 🕐 {w["time"]}{f" &nbsp;·&nbsp; {w[\"notes\"]}" if w.get("notes") else ""}</div></div>', unsafe_allow_html=True)
+                notes_part = f' &nbsp;·&nbsp; {w["notes"]}' if w.get("notes") else ""
+st.markdown(f'<div class="card blue"><div style="font-size:14px;font-weight:700">{w["type"]} <span class="badge b-blue">{w["intensity"]}</span></div><div style="font-size:12px;color:var(--text2);margin-top:5px">⏱️ {w["dur"]} mins &nbsp;·&nbsp; 🔥 {w["cal"]} kcal &nbsp;·&nbsp; {w["mood"]} &nbsp;·&nbsp; 🕐 {w["time"]}{notes_part}</div></div>', unsafe_allow_html=True)
             with c2:
                 if st.button("🗑️", key=f"dw_{i}", use_container_width=True):
                     st.session_state.workouts[today()].pop(i); st.rerun()
