@@ -415,11 +415,14 @@ with t3:
             c1,c2 = st.columns([5,1])
             with c1:
                 times_str = ", ".join(m.get("times") or []) or "Not set"
-                notes_str = f' &nbsp;·&nbsp; 📋 {m["notes"]}' if m.get("notes") else ""
-st.markdown(f'<div class="med-item"><div class="med-name">{m["name"]} <span style="color:var(--warn);font-weight:400;font-size:13px">{m["dose"]}</span></div><div class="med-sub">⏰ {times_str} &nbsp;·&nbsp; 🔁 {m["freq"]} &nbsp;·&nbsp; 📅 {m.get("duration","Ongoing")}{notes_str}</div></div>', unsafe_allow_html=True)
+               c1, c2 = st.columns([5, 1])
+            with c1:
+                notes_str = f' · {m["notes"]}' if m.get("notes") else ""
+                st.markdown(f'<div class="med-item"><div class="med-name">{m["name"]} {m["dose"]}</div><div class="med-sub">{times_str} · {m["freq"]} · {m.get("duration","Ongoing")}{notes_str}</div></div>', unsafe_allow_html=True)
             with c2:
-                if st.button("🗑️", key=f"dm_{i}", use_container_width=True):
-                    st.session_state.medicines.pop(i); st.rerun()
+                if st.button("Del", key=f"dm_{i}", use_container_width=True):
+                    st.session_state.medicines.pop(i)
+                    st.rerun()
         if st.button("🗑️ Clear All", use_container_width=True, key="clrm"):
             st.session_state.medicines=[]; st.session_state.med_logs={}; st.rerun()
     else:
